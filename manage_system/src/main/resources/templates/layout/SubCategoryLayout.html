@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CommonLayout</title>
+</head>
+<body>
+<!--追加ボタンエリア-->
+<div class="buttons">
+</div>
+<!--サブカテゴリー一括削除ボダンエリア-->
+<div th:fragment="bulkRemoveBtnArea" class="buttons">
+    <button class="bulkRemoveBtn" type="button">一括削除</button>
+    <button id="show-add-item">追加</button>
+</div>
+
+<!--サブカテゴリー一覧テーブル-->
+<div th:fragment="suCategoryListTable">
+    <form th:action="@{/manager/delete/removeSubCategories}" method="post">
+        <div class="buttons">
+            <button class="cancelBtn" type="button">キャンセル</button>
+            <button class="removedBtn" type="submit">完成削除</button>
+        </div>
+        <label>
+            <input type="hidden" name="categoryId" th:value="${category.getCategoryId()}">
+        </label>
+        <table>
+            <tr>
+                <th colspan="3">カテゴリー</th>
+            </tr>
+            <tr>
+                <th colspan="2">ID</th>
+                <th>名称</th>
+            </tr>
+            <tr>
+                <td colspan="2"><p th:text="${category.getCategoryId()}"></p></td>
+                <td><p th:text="${category.getCategoryName()}"></p></td>
+            </tr>
+            <tr>
+                <th colspan="3">サブカテゴリー</th>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th colspan="3">操作</th>
+            </tr>
+            <tr th:each="subCategory : ${subCategoryList}">
+                <td class="id" th:text="${subCategory.getSubCategoryId()}"></td>
+                <td class="table-title" th:text="${subCategory.getSubCategoryName()}"></td>
+                <td>
+                    <button class="edit-item" type="button" th:id="${subCategory.getSubCategoryId()}">名称編集</button>
+                    <a th:href="@{/manager/delete/{categoryId}/{subCategoryId}(categoryId=${category.getCategoryId()}, subCategoryId=${subCategory.getSubCategoryId()})}">削除</a>
+                    <label><input type="checkbox" name="subCategoryIds"
+                                  th:value="${subCategory.getSubCategoryId()}"/></label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--サブカテゴリー追加フォーム-->
+<form class="msg-box"
+      id="msg-box-add"
+      th:fragment="subCategoryAddForm"
+      th:action="@{/manager/category/subcategory/addSubCategory}"
+      method="post">
+    <div class="input-items">
+        <p class="category-name">追加</p>
+        <label><input type="text" class="input-items-input-text" name="subCategoryName"
+                      placeholder="名称"></label>
+        <label><input type="hidden" name="categoryId" th:value="${category.getCategoryId()}" hidden></label>
+    </div>
+    <div class="buttons">
+        <button type="button" class="cancel">取消</button>
+        <button type="submit">送信</button>
+    </div>
+</form>
+
+<!--    サブカテゴリー編集フォーム-->
+<form class="msg-box"
+      id="msg-box-edit"
+      th:fragment="subCategoryEditForm"
+      th:action="@{/manager/category/subcategory/editSubCategory}"
+      method="post">
+    <div class="input-items">
+        <p class="category-name">カテゴリータイプ 編輯</p>
+        <label for="subCategoryName">
+            <input type="text" placeholder="サブカテゴリー"
+                   class="input-items-input-text" id="subCategoryName"
+                   name="subCategoryName">
+        </label>
+        <label>
+            <input type="hidden" class="innerSubCategoryId" id="subCategoryId" name="subCategoryId">
+        </label>
+        <label>
+            <input type="hidden" name="categoryId" th:value="${category.getCategoryId()}" hidden>
+        </label>
+    </div>
+    <div class="buttons">
+        <button type="button" class="cancel">取消</button>
+        <button type="submit">送信</button>
+    </div>
+</form>
+
+
+</body>
+</html>

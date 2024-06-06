@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@200;300;400&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: 5px;
+    font-family: 'IBM Plex Sans JP', sans-serif;
+    text-decoration: none;
+    color: aliceblue;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+.pageTitle {
+    background-color: transparent;
+    border: none;
+    color: aliceblue;
+}
+
+header {
+    padding: 10px;
+    background-color: royalblue;
+    color: aliceblue;
+    justify-content: space-between;
+    display: flex;
+    border-radius: 0;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+input, select, textarea, button, a {
+    background-color: aliceblue;
+    border: 1px solid aliceblue;
+    padding: 10px;
+    margin: 10px;
+    color: royalblue;
+}
+
+textarea {
+    width: 50%;
+    height: 40%;
+}
+
+option {
+    color: royalblue;
+}
+
+a:hover, button:hover {
+    background-color: royalblue;
+    cursor: pointer;
+    color: aliceblue;
+}
+
+.cancel:hover {
+    background-color: red;
+}
+
+table {
+    background-color: royalblue;
+    margin: auto;
+    padding: 20px;
+}
+
+th {
+    background-color: aliceblue;
+    color: royalblue;
+    padding: 10px;
+    margin: auto 15px;
+    max-width: 20%;
+    min-width: 15%;
+}
+
+tr {
+    border-bottom: 2px solid aliceblue;
+}
+
+td {
+    padding: 20px;
+    align-items: center;
+    height: 20%;
+    overflow: hidden;
+    text-align: center;
+}
+
+
+.message {
+    color: royalblue;
+    margin: 10px 20px;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.buttons {
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+}
+
+.buttons a, .buttons button {
+    flex: 1;
+    max-width: 20%;
+    margin: auto;
+    text-align: center;
+    background-color: royalblue;
+    color: aliceblue;
+}
+
+.buttons a:hover, .buttons button {
+    color: royalblue;
+    background-color: aliceblue;
+    border: 1px solid royalblue;
+}
+
+.inputArea {
+    padding: 10px;
+    margin: 10px;
+    background-color: royalblue;
+}
+
+.inputAreaItem {
+    border: 2px solid aliceblue;
+    padding: 10px;
+    margin: 10px;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+}
+
+menu ul {
+    display: flex;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: royalblue;
+    max-width: 70%;
+    min-height: 50px;
+}
+
+menu li {
+    flex: 1;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.unicodeHidden {
+    display: none;
+}
+
+.unicode-pass {
+    display: none;
+}
+
+.resume-navigation {
+    background-color: royalblue;
+    padding: 10px;
+    margin: auto;
+    width: fit-content;
+}
+
+.resume-navigation ul, .resume-navigation li {
+    flex: 1;
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    min-width: fit-content;
+}
+
+.resume-navigation button {
+    background-color: aliceblue;
+    color: royalblue;
+    margin: auto 20px;
+}
+
+.resume-navigation button:hover {
+    background-color: royalblue;
+    color: aliceblue;
+}

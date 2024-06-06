@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>INEXT株式会社</title>
+    <script type="text/javascript" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <link th:href="@{/css/common/Account.css}" rel="stylesheet">
+    <link th:href="@{/css/Common.css}" rel="styleSheet">
+    <link th:href="@{/css/common/NewsList.css}" rel="styleSheet">
+</head>
+<body>
+<!--ページタイトル-->
+<header th:replace="~{/layout/AccountLayout::userHomeHeader}"></header>
+
+
+<main>
+    <!--トップニュース-->
+    <div th:replace="~{/layout/NewsLayout::topNewsList}"></div>
+
+    <!--ログインエリア-->
+    <div class="loginArea" th:replace="/layout/AccountLayout::userLogin"></div>
+    <!--サインアップエリア-->
+    <div class="signUpArea" th:replace="/layout/AccountLayout::userSignUp"></div>
+    <!--パスワード忘れエリア-->
+    <div class="forgotArea" th:replace="/layout/AccountLayout::userForgot"></div>
+</main>
+</body>
+
+<script th:src="@{/js/Common.js}"></script>
+
+</html>

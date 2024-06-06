@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.ProductDao">
+
+    <!-- 商品リスト取得 -->
+    <select id="selectProduct" resultType="com.inext.manage_system.model.Product">
+        SELECT item_id,
+               item_name,
+               origin_price
+        FROM product
+        WHERE `delete` = 0
+    </select>
+
+</mapper>

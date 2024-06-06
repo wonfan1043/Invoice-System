@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>請求書リスト</title>
+    <link th:href="@{/css/invoice/InvoiceList.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+<!-- トップエリア -->
+<div class="header">
+    <div class="logo">LOGO</div>
+    <div class="logout">ログアウト</div>
+</div>
+
+<!-- 真ん中 -->
+<div class="middle">
+    <div class="leftBar">
+        <div class="resume">履歴書出力</div>
+        <div class="attendance">勤怠入力</div>
+        <div class="thoughts">感想入力</div>
+        <div class="pwd">パスワード変更</div>
+    </div>
+    <div class="rightContent">
+        <!-- 請求書と新規ボタンエリア -->
+        <div class="topArea">
+            <h1>請求書リスト</h1>
+            <div class="addBtnForm">
+                <i class="addBtn fa-solid fa-pen-to-square">
+                    <p class="addText">新規</p>
+                </i>
+            </div>
+        </div>
+        
+        <!-- 検索エリア -->
+        <div class="searchBar">
+            <div class="line"></div>
+            <div class="searchContent">
+                <p>検索条件</p>
+                <div class="conditions">
+                    <select name="dateType" id="dateType">
+                        <option value="1">作成日付</option>
+                        <option value="2">請求日付</option>
+                    </select>
+                    <select name="year" id="year"></select>
+                    <select name="month" id="month">
+                        <option value="1">1月</option>
+                        <option value="2">2月</option>
+                        <option value="3">3月</option>
+                        <option value="4">4月</option>
+                        <option value="5">5月</option>
+                        <option value="6">6月</option>
+                        <option value="7">7月</option>
+                        <option value="8">8月</option>
+                        <option value="9">9月</option>
+                        <option value="10">10月</option>
+                        <option value="11">11月</option>
+                        <option value="12">12月</option>
+                    </select>
+                    <select name="corp" id="corp">
+                        <option value="null" selected>協力会社</option>
+                        <option th:each="corp : ${companyList}" th:value="${corp.corpJp}" th:text="${corp.corpJp}"></option>
+                    </select>
+                    <i class="searchBtn fa-solid fa-magnifying-glass">
+                        <p class="searchText">検索</p>
+                    </i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 検索結果アリア -->
+        <div class="searchResult">
+            <div class="listTitle">
+                <span class="chargeDateTitle">請求日付</span>
+                <span class="createDateTitle">作成日付</span>
+                <span class="corpTitle">会社</span>
+                <span class="topicTitle">主旨</span>
+            </div>
+            <div class="eachInvoice" id="list" th:fragment="list">
+                <div class="invoice" th:if="${invoiceList != null}" th:each="invoice, index : ${invoiceList.list}">
+                    <p class="num" th:text="${7 * (invoiceList.pageNum - 1) + 1 + index.index}"></p>
+                    <span class="chargeDate"  th:text="${invoice.chargeDate} ? ${#temporals.format(invoice.chargeDate, 'yyyy/MM/dd')} : 該当情報なし"></span>
+                    <span class="createDate" th:text="${#temporals.format(invoice.createDatetime, 'yyyy/MM/dd')}"></span>
+                    <p class="corp" th:text="${invoice.corpName}"></p>
+                    <p class="topic" th:text="${invoice.topicName}"></p>
+                    <i class="viewBtn fa-solid fa-pen" th:data-invoice-to-view="${invoice.invoiceNo}">
+                        <p class="editAndDeleteText">詳細</p>
+                    </i>
+                    <i class="deleteBtn fa-solid fa-trash-can" th:data-invoice-to-delete="${invoice.invoiceNo}">
+                        <p class="editAndDeleteText">削除</p>
+                    </i>
+                    <div class="line"></div>
+                </div>
+                <input id="currentPageNum" type="text" style="display: none;" th:value="${invoiceList.pageNum}">
+                <input id="lastPageNum" type="text" style="display: none;" th:value="${invoiceList.pages}">
+            </div>
+        </div>
+        
+        <!-- ボタンエリア -->
+        <div class="buttons">
+            <div class="previousPageBtn">
+                <p class="previousPageText">前ページ</p>
+                <i class="fa-solid fa-circle-chevron-left"></i>
+            </div>
+            <i class="nextPageBtn fa-solid fa-circle-chevron-right">
+                <p class="nextPageText">次ページ</p>
+            </i>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/invoice/InvoiceList.js}"></script>
+</body>
+</html>

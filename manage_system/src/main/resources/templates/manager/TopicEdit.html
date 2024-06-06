@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>請求書主旨編集</title>
+    <link th:href="@{/css/invoice/TopicEdit.css}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+<!-- トップエリア -->
+<div class="header">
+    <div class="logo">LOGO</div>
+    <div class="logout">ログアウト</div>
+</div>
+
+<!-- 真ん中 -->
+<div class="middle">
+    <div class="leftBar">
+        <div class="resume">履歴書出力</div>
+        <div class="attendance">勤怠入力</div>
+        <div class="thoughts">感想入力</div>
+        <div class="pwd">パスワード変更</div>
+    </div>
+    <div class="rightContent">
+        <!-- タイトル -->
+        <h1>請求書主旨編集</h1>
+
+        <!-- 編集エリア -->
+        <div class="editArea">
+            <label class="timeLabel">作成年月日</label><span class="currentTime" th:text="' '+${#temporals.format(topicData.createDatetime, 'yyyy/MM/dd　HH:mm:ss')}"></span><br>
+            <label class="topicLabel" for="topic">請求書主旨<span class="necessary">*</span></label><input type="text" class="topic" placeholder="請求書主旨（中）" th:value="${topicData.topicName}"><br>
+            <label class="idLabel" for="topicId">請求書主旨ID<span class="necessary">*</span></label><input type="text" class="topicId" placeholder="請求書主旨ID（英）" disabled th:value="${topicData.topicId}"><br>
+            <label class="commentLabel" for="comment">コメント</label><textarea placeholder="コメント（略）" class="comment" th:text="${topicData.comment}"></textarea>
+        </div>
+        
+        <!-- ボタンエリア -->
+        <div class="buttons">
+            <button type="button" class="cancelBtn">取消</button>
+            <button type="button" class="saveBtn">保存</button>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/invoice/TopicEdit.js}"></script>
+</body>
+</html>

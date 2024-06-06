@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.news.SubCategoryDao">
+
+    <resultMap id="idNumberMap" type="com.inext.manage_system.dao.news.SubCategoryDao">
+        <result property="subCategoryId" column="idNumber"/>
+    </resultMap>
+
+    <!--サブカテゴリー取得-->
+    <select id="selectSubCategoryList" resultType="com.inext.manage_system.model.news.SubCategory">
+        SELECT subCategoryId,
+               categoryId,
+               subCategoryName,
+               subCategoryAddDate,
+               subCategoryEditDate,
+               subCategoryStatus,
+               subCategoryRemoveDate
+        FROM inext.subcategory
+    </select>
+
+    <!--サブカテゴリーリスト取得 by categoryId-->
+    <select id="selectSubCategoryListByCategoryIdAndSubCategoryStatus" resultType="com.inext.manage_system.model.news.SubCategory">
+        SELECT subCategoryId,
+               categoryId,
+               subCategoryName,
+               subCategoryAddDate,
+               subCategoryEditDate,
+               subCategoryStatus,
+               subCategoryRemoveDate
+        FROM inext.subcategory
+        WHERE categoryId = #{categoryId}
+          AND subCategoryStatus = 1
+    </select>
+
+    <!--サブカテゴリー追加-->
+    <insert id="insertSubCategory">
+        INSERT INTO inext.subcategory
+        (subCategoryId,
+         categoryId,
+         subCategoryName,
+         subCategoryAddDate,
+         subCategoryEditDate,
+         subCategoryStatus,
+         subCategoryRemoveDate)
+        VALUES (#{subCategory.subCategoryId},
+                #{subCategory.categoryId},
+                #{subCategory.subCategoryName},
+                #{subCategory.subCategoryAddDate},
+                #{subCategory.subCategoryEditDate},
+                #{subCategory.subCategoryStatus},
+                #{subCategory.subCategoryRemoveDate})
+    </insert>
+
+    <!--サブカテゴリー編集-->
+    <update id="updateSubCategoryBySubCategoryId">
+        UPDATE inext.subcategory
+        SET subCategoryName     = #{subCategory.subCategoryName},
+            subCategoryEditDate = #{subCategory.subCategoryEditDate}
+        WHERE (subCategoryId = #{subCategory.subCategoryId});
+    </update>
+
+    <!--サブカテゴリー状態編集-->
+    <update id="updateSubCategoryStatusBySubCategoryId">
+        UPDATE inext.subcategory
+        SET subCategoryStatus = #{subCategory.subCategoryStatus},
+            subCategoryRemoveDate = #{subCategory.subCategoryRemoveDate}
+        WHERE subCategoryId = #{subCategory.subCategoryId}
+          AND categoryId = #{subCategory.categoryId};
+    </update>
+
+    <!--サブカテゴリー状態一括編集-->
+    <update id="updateSubCategoriesBySubCategoryId">
+        UPDATE inext.subcategory
+        <set>
+            subCategoryStatus = #{subCategoryStatus},
+            subCategoryRemoveDate = #{subCategoryRemoveDate}
+        </set>
+        WHERE subCategoryId IN
+        <foreach collection="subCategoryIds" item="subCategoryId" open="(" close=")" separator=",">
+            #{subCategoryId}
+        </foreach>
+        AND categoryId = #{categoryId}
+    </update>
+
+        <!--サブカテゴリーー採番取得-->
+        <select id="selectSubCategorySequence" resultMap="idNumberMap">
+            SELECT idNumber
+            FROM inext.subCategoryid_sequence;
+            <!-- WHERE CategoryName = "subCategory" -->
+        </select>
+    
+        <!--採番Id変更-->
+        <update id="updateSubCategorySequence">
+            UPDATE inext.subCategoryid_sequence
+            SET idNumber = idNumber + 1
+            <!-- WHERE CategoryName = "subCategory" -->
+            ORDER BY idNumber
+            LIMIT 1;
+        </update>
+</mapper>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CategoryLayout</title>
+</head>
+<body>
+
+<div th:fragment="categoryListDisplay">
+    <form th:action="@{/manager/delete/removeCategories}" method="post">
+        <div class="buttons">
+            <button class="cancelBtn" type="button">キャンセル</button>
+            <button class="removedBtn" type="submit">完成削除</button>
+        </div>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>カテゴリの利用数</th>
+                <th>名称</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="category, index :${categoryList}">
+                <td th:text="${category.getCategoryId()}" class="categoryId"></td>
+                <td>
+                    <span>(</span>
+                    <span th:text="${newsCountList[__${index.index}__]}"></span>
+                    <span>)</span>
+                </td>
+                <td th:text="${category.getCategoryName()}" class="table-title" id="categoryName"></td>
+                <td>
+                    <div class="buttons">
+                        <button type="button" class="edit-item" th:id="${category.getCategoryId()}">名称編集</button>
+                        <a th:href="@{/manager/category/{categoryId}/subCategory(categoryId=${category.getCategoryId()})}">サブカテゴリー</a>
+                        <a th:href="@{/manager/delete/category/{categoryId}(categoryId=${category.getCategoryId()})}">削除</a>
+                        <label>
+                            <input type="checkbox" name="categoryId" th:value="${category.getCategoryId()}"/>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--一括削除ボダンエリア-->
+<div th:fragment="bulkRemoveBtnArea" class="buttons">
+    <button class="bulkRemoveBtn" type="button">一括削除</button>
+    <button id="show-add-item">追加</button>
+</div>
+
+<!--カテゴリ追加フォーム-->
+<div th:fragment="categoryAddForm">
+    <form class="msg-box"
+          id="msg-box-add"
+          th:action="@{/manager/Category/add}"
+          method="post">
+        <div class="input-items">
+            <p class="input-items-title">カテゴリー追加</p>
+            <label>
+                <input type="text"
+                       placeholder="名称"
+                       class="input-items-input-text"
+                       name="categoryName"/>
+            </label>
+        </div>
+        <div class="buttons">
+            <button class="cancel" name="cancel" type="button"> 取消</button>
+            <button type="submit">送信</button>
+        </div>
+    </form>
+</div>
+<!--編集カテゴリ名称-->
+<div th:fragment="categoryEditForm">
+    <form class="msg-box"
+          id="msg-box-edit"
+          th:action="@{/manager/category/rename}"
+          method="post">
+        <div class="input-items">
+            <p class="input-items-title">カテゴリー名称</p>
+            <input type="hidden" class="input-items-input-text" id="innerCategoryId" name="categoryId">
+            <label>
+                <input type="text"
+                       class="input-items-input-text"
+                       id="innerCategoryName"
+                       name="categoryName"
+                       placeholder="名称"/>
+            </label>
+        </div>
+        <div class="buttons">
+            <button class="cancel" type="button">取消</button>
+            <button type="submit">送信</button>
+        </div>
+    </form>
+</div>
+
+</body>
+
+<script th:src="@{/js/Common.js}"></script>
+
+</html>

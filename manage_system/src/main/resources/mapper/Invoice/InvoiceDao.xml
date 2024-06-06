@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.InvoiceDao">
+
+    <!-- 請求書番号取得 by invoiceNo -->
+    <select id="selectInvoiceNoByInvoiceNo" resultType="String">
+        SELECT invoice_no
+        FROM invoice
+        WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <!-- 税率リスト取得 -->
+    <select id="selectTaxRateDistinct" resultType="Float">
+        SELECT DISTINCT tax
+        FROM invoice
+        ORDER BY tax
+    </select>
+
+    <!-- 請求書追加 -->
+    <insert id="insertInvoice">
+        INSERT INTO invoice 
+        (invoice_no,
+         corp_name,
+         receiver,
+         postcode,
+         county,
+         town,
+         address,
+         building, 
+         topic_name, 
+         bank_id, 
+         tax, 
+         memo, 
+         due_date, 
+         charge_date,
+         creator, 
+         create_datetime,
+         updater,
+         update_datetime,
+         `delete`)
+        VALUES (#{invoice.invoiceNo},
+                #{invoice.corpName},
+                #{invoice.receiver},
+                #{invoice.postcode},
+                #{invoice.county},
+                #{invoice.town},
+                #{invoice.address},
+                #{invoice.building},
+                #{invoice.topicName},
+                #{invoice.bankId},
+                #{invoice.tax},
+                #{invoice.memo},
+                #{invoice.dueDate},
+                #{invoice.chargeDate},
+                #{invoice.creator},
+                #{invoice.createDatetime},
+                Null,
+                Null,
+                0)
+    </insert>
+
+    <!-- 請求書内容更新 -->
+    <update id="updateInvoice">
+        UPDATE invoice
+        SET corp_name = #{invoice.corpName},
+            receiver = #{invoice.receiver},
+            postcode = #{invoice.postcode},
+            county = #{invoice.county},
+            town = #{invoice.town},
+            address = #{invoice.address},
+            building = #{invoice.building},
+            topic_name = #{invoice.topicName}, 
+            bank_id = #{invoice.bankId}, 
+            tax = #{invoice.tax}, 
+            memo = #{invoice.memo}, 
+            due_date = #{invoice.dueDate}, 
+            charge_date = #{invoice.chargeDate}, 
+            updater = #{invoice.updater}, 
+            update_datetime = #{invoice.updateDatetime}
+        WHERE invoice_no = #{invoice.invoiceNo}
+          AND `delete` = 0
+    </update>
+
+    <!-- 請求書取得 by dateType, corpName -->
+    <select id="selectInvoiceByDateTypeCorpName" resultType="com.inext.manage_system.model.Invoice">
+        SELECT invoice_no,
+               corp_name,
+               topic_name,
+               charge_date,
+               create_datetime
+        FROM invoice
+        <where>
+            <if test="req.dateType == 1">
+                    YEAR(create_datetime) = #{req.year}
+                AND MONTH(create_datetime) = #{req.month}
+            </if>
+            <if test="req.dateType == 2">
+                    YEAR(charge_date) = #{req.year}
+                AND MONTH(charge_date) = #{req.month}
+            </if>
+            <if test="req.corpName != null">
+                AND corp_name = #{req.corpName}
+            </if>
+            AND `delete` = 0
+        </where>
+        ORDER BY create_datetime DESC
+    </select>
+
+    <!-- 請求書詳細取得 by invoiceNo -->
+    <select id="selectInvoiceByInvoiceNo" resultType="com.inext.manage_system.model.Invoice">
+        SELECT invoice_no,
+               corp_name,
+               receiver,
+               postcode,
+               county,
+               town,
+               address,
+               building,
+               topic_name,
+               bank_id,
+               tax,
+               memo,
+               due_date,
+               create_datetime
+        FROM invoice
+        WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <!-- 請求書状態編集 -->
+    <update id="updateInvoiceStatus">
+        UPDATE invoice
+        SET updater = #{invoice.updater},
+            update_datetime = #{invoice.updateDatetime},
+            `delete` = 1
+        WHERE invoice_no = #{invoice.invoiceNo}
+    </update>
+
+</mapper>

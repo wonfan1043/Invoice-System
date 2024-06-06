@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>請求書明細プレビュー</title>
+    <link th:href="@{/css/invoice/InvoiceView.css}" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+<!-- トップエリア -->
+<div class="header">
+    <div class="logo">LOGO</div>
+    <div class="logout">ログアウト</div>
+</div>
+
+<!-- 真ん中 -->
+<div class="middle">
+    <div class="leftBar">
+        <div class="resume">履歴書出力</div>
+        <div class="attendance">勤怠入力</div>
+        <div class="thoughts">感想入力</div>
+        <div class="pwd">パスワード変更</div>
+    </div>
+    <div class="rightContent">
+        <!-- タイトル -->
+        <h1 class="title">請求書明細プレビュー</h1>
+        <!--startprint-->
+        <!-- 請求書番号 -->
+        <div class="row">
+            <p class="titleP">請求書No.</p>
+            <p class="invoiceNo content" th:text="${invoice.invoiceNo}"></p>
+        </div>
+    
+        <!-- 作成日 -->
+        <div class="row">
+            <p class="titleP">作成日付</p>
+            <p class="createDate content" id="createDate"
+                th:text="${#temporals.format(invoice.createDatetime, 'yyyy/MM/dd')}"></p>
+        </div>
+    
+        <!-- 発注先 -->
+        <div class="row">
+            <p class="titleP">発注先</p>
+            <p class="corpName content" th:text="${invoice.corpName}"></p>
+        </div>
+    
+        <!-- 主旨 -->
+        <div class="row">
+            <p class="titleP">主旨</p>
+            <p class="topicName content" th:text="${invoice.topicName}"></p>
+        </div>
+    
+        <!-- 発注先 -->
+        <div class="row">
+            <p class="titleP">発送先</p>
+            <p class="receiver content" th:text="${invoice.receiver}"></p>
+        </div>
+    
+        <!-- 発送先情報エリア -->
+        <div class="row">
+            <p class="titleP">発送先都道府県</p>
+            <p class="county content" th:text="${invoice.county}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">発送先郵便番号</p>
+            <p class="postcode content" th:text="${invoice.postcode}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">発送先市区町村</p>
+            <p class="town content" th:text="${invoice.town}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">発送先住所</p>
+            <p class="addressSend content" th:text="${invoice.address}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">発送先ビル名</p>
+            <p class="content" id="building" th:if="${invoice.building} != null" th:text="${invoice.building}"></p>
+            <p class="noText" th:if="${invoice.building} == null">(なし)</p>
+        </div>
+    
+        <!-- 口座情報エリア -->
+        <div class="row">
+            <p class="bankText titleP">振込銀行</p>
+            <p class="bank content" th:if="${bank.branchName} != null" th:text="${bank.bankName}+${bank.branchName}"></p>
+            <p class="bank content" th:if="${bank.branchName} == null" th:text="${bank.bankName}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="addressTitle titleP">振込銀行住所</p>
+            <div class="address" th:if="${bank.bankArea} == tw">
+                <p class="addressContent bankAddress" th:if="${bank.twBankHouseName} != null"
+                    th:text="${bank.twBankPostCode}+'　'+${bank.twBankCounty}+${bank.twBankTown}+${bank.twBankRoad}+${bank.twBankAddress}+${bank.twBankHouseName}">
+                </p>
+                <p class="addressContent bankAddress" th:if="${bank.twBankHouseName} == null"
+                    th:text="${bank.twBankPostCode}+'　'+${bank.twBankCounty}+${bank.twBankTown}+${bank.twBankRoad}+${bank.twBankAddress}">
+                </p>
+            </div>
+            <div class="address" th:if="${bank.bankArea} == jp">
+                <p class="addressContent bankAddress" th:if="${bank.jpBankHouseName} != null"
+                    th:text="${bank.jpBankPostCode}+'　'+${bank.jpBankCounty}+${bank.jpBankTown}+${bank.jpBankAddress}+${bank.jpBankHouseName}">
+                </p>
+                <p class="addressContent bankAddress" th:if="${bank.jpBankHouseName} == null"
+                    th:text="${bank.jpBankPostCode}+'　'+${bank.jpBankCounty}+${bank.jpBankTown}+${bank.jpBankAddress}"></p>
+            </div>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">SWIFT CODE</p>
+            <p class="swiftCode content" th:text="${bank.swiftCode}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">口座名</p>
+            <p class="holder content" th:text="${bank.accountName}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="addressTitle titleP">受取人住所</p>
+            <div class="address content" th:if="${bank.receiveArea} == tw">
+                <p class="addressContent receiveAddress" th:if="${bank.twReceiveHouseName} != null"
+                    th:text="${bank.twReceivePostCode}+'　'+${bank.twReceiveCounty}+${bank.twReceiveTown}+${bank.twReceiveRoad}+${bank.twReceiveAddress}+${bank.twReceiveHouseName}">
+                </p>
+                <p class="addressContent receiveAddress" th:if="${bank.twReceiveHouseName} == null"
+                    th:text="${bank.twReceivePostCode}+'　'+${bank.twReceiveCounty}+${bank.twReceiveTown}+${bank.twReceiveRoad}+${bank.twReceiveAddress}">
+                </p>
+            </div>
+            <div class="address content" th:if="${bank.receiveArea} == jp">
+                <p class="addressContent receiveAddress" th:if="${bank.jpReceiveHouseName} != null"
+                    th:text="${bank.jpReceivePostCode}+'　'+${bank.jpReceiveCounty}+${bank.jpReceiveTown}+${bank.jpReceiveAddress}+${bank.jpReceiveHouseName}">
+                </p>
+                <p class="addressContent receiveAddress" th:if="${bank.jpReceiveHouseName} == null"
+                    th:text="${bank.jpReceivePostCode}+'　'+${bank.jpReceiveCounty}+${bank.jpReceiveTown}+${bank.jpReceiveAddress}">
+                </p>
+            </div>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">口座Ｎo.</p>
+            <p class="account content" th:text="${bank.accountNumber}"></p>
+        </div>
+    
+        <!-- 請求内容エリア -->
+        <p class="contentTitle">請求内容</p>
+    
+        <div class="contentrow">
+            <p class="contentNo">No.</p>
+            <p class="itemName itemNamePrint">内容</p>
+            <p class="unitPrice unitPricePrint">単価</p>
+            <p class="quantity quantityPrint">数量</p>
+            <p class="eachSumPrint">金額</p>
+        </div>
+    
+        <div class="contentrow" th:each="item, index : ${product}">
+            <p class="contentNo" th:text="${index.index + 1}"></p>
+            <p class="itemName" th:text="${item.itemName}"></p>
+            <p class="unitPrice" th:text="${item.unitPrice}"></p>
+            <p class="quantity" th:text="${item.quantity}"></p>
+            <p class="eachSum" th:text="${item.unitPrice}*${item.quantity}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">消費税</p>
+            <p class="content" id="tax" th:text="${invoice.tax}"></p>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">合計（税込）</p>
+            <p class="content" id="sum"></p>
+        </div>
+    
+        <!-- 決済期限 -->
+        <div class="row">
+            <p class="titleP">お支払い期限</p>
+            <p class="dueDate content" id="dueDate" th:if="${invoice.dueDate} != null" th:text="${invoice.dueDate}"></p>
+            <p class="noText" th:if="${invoice.dueDate} == null">(なし)</p>
+        </div>
+    
+        <!-- 備考 -->
+        <div class="row">
+            <p class="titleP">備考</p>
+            <p class="memo content" id="memo" th:if="${invoice.memo} != null" th:text="${invoice.memo}"></p>
+            <p class="noText" th:if="${invoice.memo} == null">(なし)</p>
+        </div>
+        <!--endprint-->
+        <!-- ボタンエリア -->
+        <div class="buttons">
+            <button type="button" class="backBtn">戻る</button>
+            <button type="button" class="editBtn">編集</button>
+            <button type="button" class="pdfBtn">PDF出力</button>
+        </div>
+    </div>
+</div>
+    <script th:src="@{/js/invoice/InvoiceView.js}"></script>
+</body>
+
+</html>

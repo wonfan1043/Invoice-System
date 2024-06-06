@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.TopicDao">
+
+    <!-- 主旨リスト取得 -->
+    <select id="selectTopicDistinct" resultType="com.inext.manage_system.model.Topic">
+        SELECT topic_id,
+               topic_name
+        FROM topic
+        WHERE `delete` = 0
+    </select>
+
+    <!-- 主旨取得 by topicId -->
+    <select id="selectTopicByTopicId" resultType="com.inext.manage_system.model.Topic"> 
+        SELECT topic_id,
+               topic_name,
+               comment,
+               create_datetime 
+        FROM topic 
+        WHERE topic_id = #{topicId}
+          AND `delete` = 0
+    </select>
+
+    <!-- 主旨名取得 by topicName -->
+    <select id="selectTopicNameByTopicName" resultType="String">
+        SELECT topic_name 
+        FROM topic 
+        WHERE topic_name = #{topicName}
+          AND `delete` = 0
+    </select>
+
+    <!-- 主旨追加 -->
+    <insert id="insertTopic">
+        INSERT INTO topic 
+        (topic_id,
+         topic_name, 
+         comment, 
+         creater, 
+         create_datetime,
+         updater,
+         update_datetime,
+         `delete`) 
+        VALUES (#{topic.topicId}, 
+                #{topic.topicName}, 
+                #{topic.comment}, 
+                #{topic.creater}, 
+                #{topic.createDatetime},
+                NULL,
+                NULL,
+                #{topic.delete})
+    </insert>
+
+    <!-- 主旨編集 by topicId -->
+    <update id="updateTopicByTopicId">
+        UPDATE topic 
+        SET topic_name = #{topic.topicName}, 
+            comment = #{topic.comment}, 
+            updater = #{topic.updater}, 
+            update_datetime = #{topic.updateDatetime} 
+        WHERE topic_id = #{topic.topicId} 
+    </update>
+    
+    <!-- 主旨取得 by topicName, createDatetime -->
+    <select id="selectTopicByTopicNameCreateDatetime" resultType="com.inext.manage_system.model.Topic">
+        SELECT topic_id, 
+               topic_name, 
+               create_datetime 
+        FROM topic 
+        <where>
+                YEAR(create_datetime) = #{searchReq.year} 
+            AND MONTH(create_datetime) = #{searchReq.month} 
+            <if test="searchReq.keyword != null">
+                AND topic_name LIKE CONCAT('%', #{searchReq.keyword}, '%')  
+            </if>
+            AND `delete` = 0
+        </where>
+        ORDER BY create_datetime DESC
+    </select>
+
+    <!-- 主旨状態編集 -->
+    <update id="updateTopiceStatusByTopicId">
+        UPDATE topic 
+        SET updater = #{topic.updater}, 
+            update_datetime = #{topic.updateDatetime}, 
+            `delete` = 1 
+        WHERE topic_id = #{topic.topicId}
+    </update>
+
+</mapper>

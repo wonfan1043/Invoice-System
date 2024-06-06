@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>請求書明細編集</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link th:href="@{/css/invoice/InvoiceEdit.css}" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+<!-- トップエリア -->
+<div class="header">
+    <div class="logo">LOGO</div>
+    <div class="logout">ログアウト</div>
+</div>
+
+<!-- 真ん中 -->
+<div class="middle">
+    <div class="leftBar">
+        <div class="resume">履歴書出力</div>
+        <div class="attendance">勤怠入力</div>
+        <div class="thoughts">感想入力</div>
+        <div class="pwd">パスワード変更</div>
+    </div>
+    <div class="rightContent">
+        <!-- タイトル -->
+        <h1 class="title">請求書明細編集</h1>
+    
+        <!-- ドロップダウンリスト：会社サンプル -->
+        <div class="row focus">
+            <p class="titleP">会社サンプル</p>
+            <select name="corp" id="corp">
+                <option disabled selected>協力会社</option>
+                <option th:each="corp : ${sampleList}" th:value="${corp.corpName}" th:text="${corp.corpName}"></option>
+            </select>
+        </div>
+    
+        <!-- 請求書番号 -->
+        <div class="row">
+            <p class="titleP">請求書No.</p>
+            <p id="invoiceNo"></p>
+        </div>
+    
+        <!-- 作成日 -->
+        <div class="row">
+            <p class="titleP">作成日付</p>
+            <p class="createDate" id="createDate"></p>
+        </div>
+    
+        <!-- 発注先 -->
+        <div class="row focus">
+            <p class="titleP">発注先<span class="necessary">*</span></p>
+            <select name="supplier" id="supplier">
+                <option disabled selected>協力会社名称</option>
+                <option class="corpOption" th:each="corp : ${companyList}" th:value="${corp.corpId}+'|'+${corp.corpJp}" th:text="${corp.corpJp}"></option>
+            </select>
+        </div>
+    
+        <!-- 主旨 -->
+        <div class="row focus">
+            <p class="titleP">主旨<span class="necessary">*</span></p>
+            <select name="topic" id="topic">
+                <option selected disabled></option>
+                <option class="topicOpt" th:each="topic : ${topicList}" th:value="${topic.topicName}" th:text="${topic.topicName}"></option>
+            </select>
+        </div>
+    
+        <!-- 発送先情報エリア -->
+        <div class="row focus">
+            <p class="titleP">発送先<span class="necessary">*</span></p>
+            <input type="text" id="receiver" />
+        </div>
+    
+        <div class="row focus">
+            <p class="titleP">発送先都道府県<span class="necessary">*</span></p>
+            <input type="text" id="county" />
+        </div>
+    
+        <div class="row focus">
+            <p class="titleP">発送先郵便番号<span class="necessary">*</span></p>
+            <input type="text" id="postcode" />
+        </div>
+    
+        <div class="row focus">
+            <p class="titleP">発送先市区町村<span class="necessary">*</span></p>
+            <input type="text" id="town" />
+        </div>
+    
+        <div class="row focus">
+            <p class="titleP">発送先住所<span class="necessary">*</span></p>
+            <input type="text" id="address" />
+        </div>
+    
+        <div class="row focus">
+            <p class="titleP">発送先ビル名</p>
+            <input type="text" id="building" />
+        </div>
+    
+        <!-- 口座情報エリア -->
+        <div class="row focus">
+            <p class="titleP">振込銀行選択<span class="necessary">*</span></p>
+            <select name="bank" id="bankList" disabled>
+                <option value="" selected disabled>銀行-ID番号設定</option>
+                <option id="bank" th:each="bank, index : ${bankList}" th:value="${bank.bankId}" th:text="${bank.bankName}+'-'+${bank.bankId}"></option>
+            </select>
+        </div>
+    
+        <p id="banks" style="display: none;" th:text="${bankList}"></p>
+    
+        <div class="row">
+            <p class="titleP">振込銀行</p>
+            <input type="text" id="bankName" disabled/>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">振込銀行住所</p>
+            <input type="text" id="bankAddress" disabled/>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">SWIFT CODE</p>
+            <input type="text" id="swiftCode" disabled/>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">口座名</p>
+            <input type="text" id="holder" disabled/>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">受取人住所</p>
+            <input type="text" id="holderAddress" disabled/>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">口座Ｎo.</p>
+            <input type="text" id="account" disabled/>
+        </div>
+    
+        <!-- 請求内容エリア -->
+        <div class="row" style="margin-top: 3%;">
+            <p class="chargeContentTitle">請求内容</p>
+            <button type="button" class="addBtn">追加</button>
+        </div>
+        <p id="data" style="display: none;" th:data-product-list="${productList}"></p>
+        <div class="chargeContent">
+            <div class="eachItem">
+                <div class="eachItemRow focusItem">
+                    <p>内容<span class="necessary">*</span></p>
+                    <select name="product" id="product" class="product">
+                        <option value="" selected disabled>商品</option>
+                    </select>
+                </div>
+                
+                <div class="eachItemRow focusItem">
+                    <p>数量<span class="necessary">*</span></p>
+                    <input type="number" id="quantity" class="quantity" />
+                </div>
+                
+                <div class="eachItemRow focusItem">
+                    <p>単価<span class="necessary">*</span></p>
+                    <input type="number" id="unitPrice" class="unitPrice" />
+                </div>
+                <button type="button" class="deleteBtn">削除</button>
+                <div class="gap"></div>
+            </div>
+        </div>
+    
+        <div class="row focus">
+            <p class="titleP">消費税<span class="necessary">*</span></p>
+            <select name="tax" id="tax">
+                <option th:each="taxRate : ${taxList}" th:value="${taxRate}" th:text="${#numbers.formatInteger(taxRate * 100, 0)} + '%'"></option>
+            </select>
+        </div>
+
+        <div class="taxInputRow taxfocus">
+            <span>税率の追加：</span><br>
+            <input type="text" class="taxInput" placeholder="(例) 15%  → 「15」を入力してください。">
+            <span>％</span>
+            <button type="button" class="addTax">追加</button>
+        </div>
+    
+        <div class="row">
+            <p class="titleP">金額（税抜）</p>
+            <input type="number" id="beforeTax" disabled>
+        </div>
+        
+        <div class="row">
+            <p class="titleP">合計（税込）</p>
+            <input type="number" id="afterTax" disabled>
+        </div>
+        
+        <!-- 決済期限 -->
+        <div class="row focus">
+            <p class="titleP">お支払い期限<span class="necessary">*</span></p>
+            <select name="year" id="year">
+                    <option value="default" selected disabled></option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+            </select>
+            <span>&nbsp;年　　/　　</span>
+            <select name="month" id="month">
+                    <option value="default" selected disabled></option>
+                    <option value="01">1</option>
+                    <option value="02">2</option>
+                    <option value="03">3</option>
+                    <option value="04">4</option>
+                    <option value="05">5</option>
+                    <option value="06">6</option>
+                    <option value="07">7</option>
+                    <option value="08">8</option>
+                    <option value="09">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+            </select>
+            <span>&nbsp;月　　/　　</span>
+            <select name="date" id="date"></select>
+            <span>&nbsp;日</span>
+        </div>
+        
+        <!-- 備考 -->
+        <div class="memoRow memofocus">
+            <p class="titleP">備考</p>
+            <textarea class="memofocus" id="memo"></textarea>
+        </div>
+    
+        <!-- ボタンエリア -->
+        <div class="buttons">
+            <button type="button" class="sampleBtn">モード保存</button>
+            <button type="button" class="saveBtn">保存</button>
+            <button type="button" class="cancelBtn">取消</button>
+        </div>
+    </div>
+</div>
+    
+</body>
+<script th:src="@{/js/invoice/InvoiceEdit.js}"></script>
+</html>

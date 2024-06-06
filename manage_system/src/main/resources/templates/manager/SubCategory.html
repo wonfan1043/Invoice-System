@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>サブカテゴリー管理一覧</title>
+    <script type="text/javascript" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <link th:href="@{/css/Common.css}" rel="stylesheet">
+    <link th:href="@{/css/news/NewsCommon.css}" rel="stylesheet">
+    <link th:href="@{/css/news/NewsSubCategory.css}" rel="stylesheet">
+    <link th:href="@{/css/common/Account.css}" rel="stylesheet">
+</head>
+
+<body>
+
+
+<!--ログイン管理者のページタイトル-->
+<header th:replace="/layout/CommonLayout::managerHeader"></header>
+
+<!--サブカテゴリー一括削除ボダンエリア-->
+<header th:replace="/layout/SubCategoryLayout::bulkRemoveBtnArea"></header>
+<!--サブカテゴリー一覧テーブル-->
+<header th:replace="/layout/SubCategoryLayout::suCategoryListTable"></header>
+
+<!--サブカテゴリー追加フォーム-->
+<header th:replace="/layout/SubCategoryLayout::subCategoryAddForm"></header>
+<!--サブカテゴリー編集フォーム-->
+<header th:replace="/layout/SubCategoryLayout::subCategoryEditForm"></header>
+
+
+</body>
+
+<script th:src="@{/js/Common.js}"></script>
+
+</html>

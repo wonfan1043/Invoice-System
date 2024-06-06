@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CommonLayout</title>
+</head>
+<body>
+
+<!--ユーザHeaderー-->
+<header class="page-title" th:fragment="managerHeader">
+    <a class="pageTitle" th:href="@{/manager/dashboard}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+    <ul>
+        <li>
+            <a th:href="@{/manager/dashboard}">ホーム</a>
+        </li>
+        <li>
+            <a th:href="@{/manager/personalList}">履歴書一覧</a>
+        </li>
+        <li>
+            <a th:href="@{/manager/newsList}">ニュース一覧</a>
+        </li>
+        <li>
+            <a th:href="@{/manager/category}">ニュースカテゴリー覧</a>
+        </li>
+        <li>
+            <a th:href="@{/manager/logout}">ログアウト</a>
+        </li>
+    </ul>
+</header>
+
+<!--ユーザーHeader-->
+<header class="page-title" th:fragment="userHeader">
+    <a class="pageTitle" th:href="@{/user/dashboard}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+    <ul>
+        <li>
+            <a th:href="@{/user/dashboard}">ホーム</a>
+        </li>
+        <li>
+            <a th:href="@{/user/logout}">ログアウト</a>
+        </li>
+    </ul>
+</header>
+
+</body>
+</html>

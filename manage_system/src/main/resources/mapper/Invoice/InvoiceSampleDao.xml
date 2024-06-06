@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.InvoiceSampleDao">
+
+    <!-- サンプルリスト取得 -->
+    <select id="selectSampleList" resultType="com.inext.manage_system.model.InvoiceSample">
+        SELECT corp_name
+        FROM invoice_sample
+    </select>
+
+    <!-- サンプル取得 by corpName -->
+    <select id="selectInvoiceSampleByCorpName" resultType="com.inext.manage_system.model.InvoiceSample">
+        SELECT corp_name,
+               receiver,
+               county,
+               postcode,
+               town,
+               address,
+               building,
+               topic_name,
+               bank_id,
+               tax
+        FROM invoice_sample
+        WHERE corp_name = #{corpName}
+          AND `delete` = 0
+    </select>
+
+    <!-- サンプル追加 -->
+    <insert id="insertInvoiceSample">
+        INSERT INTO invoice_sample
+        (corp_name,
+         receiver,
+         county,
+         postcode,
+         town,
+         address,
+         building,
+         topic_name,
+         bank_id,
+         tax,
+         creator,
+         create_datetime,
+         updater,
+         update_datetime,
+         `delete`)
+        VALUES (#{invoiceSample.corpName},
+                #{invoiceSample.receiver},
+                #{invoiceSample.county},
+                #{invoiceSample.postcode},
+                #{invoiceSample.town},
+                #{invoiceSample.address},
+                #{invoiceSample.building},
+                #{invoiceSample.topicName},
+                #{invoiceSample.bankId},
+                #{invoiceSample.tax},
+                #{invoiceSample.creator},
+                #{invoiceSample.createDatetime},
+                Null,
+                Null,
+                0)
+    </insert>
+
+    <!-- サンプル編集 -->
+    <update id="updateInvoiceSampleByCorpName">
+        UPDATE invoice_sample
+        SET receiver = #{invoiceSample.receiver},
+            county = #{invoiceSample.county},
+            postcode = #{invoiceSample.postcode},
+            town = #{invoiceSample.town},
+            address = #{invoiceSample.address},
+            building = #{invoiceSample.building},
+            topic_name = #{invoiceSample.topicName},
+            bank_id = #{invoiceSample.bankId},
+            tax = #{invoiceSample.tax},
+            updater = #{invoiceSample.updater},
+            update_datetime = #{invoiceSample.updateDatetime}
+        WHERE corp_name = #{invoiceSample.corpName}
+    </update>
+    
+</mapper>

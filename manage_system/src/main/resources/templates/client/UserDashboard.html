@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザーホームページ</title>
+    <script type="text/javascript" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <link th:href="@{/css/Common.css}" rel="styleSheet">
+    <link th:href="@{/css/personal/PersonalCommon.css}" rel="stylesheet">
+    <link th:href="@{/css/personal/PersonalInfo.css}" rel="styleSheet">
+</head>
+<body>
+
+<!--ページタイトル-->
+<header th:replace="/layout/CommonLayout::userHeader"></header>
+<nav class="nav-list">
+    <div class="personal-navigation">
+        <ul>
+            <li>
+                <button class="nav-list-button" id="personal-navigation-basic" type="button">基本情報編集</button>
+            </li>
+            <li>
+                <button class="nav-list-button" id="personal-navigation-school" type="button">学校編集</button>
+            </li>
+            <li>
+                <button class="nav-list-button" id="personal-navigation-work" type="button">経歴編集</button>
+            </li>
+            <li>
+                <button class="nav-list-button" id="personal-navigation-project" type="button">プロジェクト編集</button>
+            </li>
+            <li>
+                <button class="nav-list-button" id="personal-navigation-language" type="button">言語能力編集</button>
+            </li>
+            <li>
+                <button class="nav-list-button" id="personal-navigation-incentive" type="button">来日動機</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main>
+    <!--基本情報-->
+    <div class="data-display">
+        <div class="data-display-cards" id="personal-navigation-basic-display">
+            <div th:replace="/layout/PersonalInfoLayout::basic"></div>
+        </div>
+        <!-- 学歴-->
+        <div class="data-display-cards" id="personal-navigation-school-display">
+            <div th:replace="/layout/PersonalInfoLayout::school"></div>
+        </div>
+        <!-- 経歴 -->
+        <div class="data-display-cards" id="personal-navigation-work-display">
+            <div th:replace="/layout/PersonalInfoLayout::work"></div>
+        </div>
+        <!-- プロジェクト-->
+        <div class="data-display-cards" id="personal-navigation-project-display">
+            <div th:replace="/layout/PersonalInfoLayout::project"></div>
+        </div>
+        <!-- 言語-->
+        <div class="data-display-cards" id="personal-navigation-language-display">
+            <div th:replace="/layout/PersonalInfoLayout::language"></div>
+        </div>
+        <!-- 来日動機-->
+        <div class="data-display-cards" id="personal-navigation-incentive-display">
+            <div th:replace="/layout/PersonalInfoLayout::incentive"></div>
+        </div>
+    </div>
+
+
+    <div class="forms" th:each="personalBasic:${personalBasicList}">
+        <div th:replace="/layout/PersonalInfoLayout::basicForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::schoolForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::workForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::projectForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::programmingForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::licenseForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::languageForm"></div>
+        <div th:replace="/layout/PersonalInfoLayout::incentiveForm"></div>
+    </div>
+
+</main>
+
+
+</body>
+
+<script th:src="@{/js/personal/PersonalCommon.js}"></script>
+<script th:src="@{/js/personal/PersonalInfo.js}"></script>
+<script th:src="@{/js/personal/UserDashboard.js}"></script>
+
+</html>

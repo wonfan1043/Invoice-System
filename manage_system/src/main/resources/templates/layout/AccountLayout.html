@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AccountLayout</title>
+</head>
+<body>
+
+<!--ページタイトル-->
+<!--ユーザー（普通ユーザー）-->
+<!--ログインなし-->
+<header class="page-title" th:fragment="userHomeHeader">
+    <a class="pageTitle" th:href="@{/home}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+    <ul>
+        <li>
+            <a th:href="@{/home}">ホームページ</a>
+        </li>
+        <li>
+            <a th:href="@{/newsList}">ニュース一覧</a>
+        </li>
+        <li>
+            <button class="goSignUp" type="button">サインアップ</button>
+        </li>
+        <li>
+            <button class="goLogin" type="button">ログイン</button>
+        </li>
+    </ul>
+</header>
+<!--ログインある-->
+<header class="page-title" th:fragment="UserAccountLogInHeader">
+    <a class="pageTitle" th:href="@{/user/home}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+    <ul>
+        <li>
+            <a th:href="@{/user/home}">ホーム</a>
+        </li>
+        <li>
+            <a th:href="@{/staff/{personalId}/Info}">履歴書編集</a>
+        </li>
+    </ul>
+</header>
+<!--管理者（マネージャー）-->
+<!--ログインなし-->
+<header class="page-title" th:fragment="ManagerHomeHeader">
+    <a class="pageTitle" th:href="@{/manager/home}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+    <ul>
+        <li>
+            <a th:href="@{/manager/home}">ホームページ</a>
+        </li>
+        <li>
+            <button class="goSignUp" type="button">サインアップ</button>
+        </li>
+        <li>
+            <button class="goLogin" type="button">ログイン</button>
+        </li>
+    </ul>
+</header>
+<!--ログインある-->
+<header class="page-title" th:fragment="ManagerAccountLogInHeader">
+    <a class="pageTitle" th:href="@{/manager/home}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+    <ul>
+        <li>
+            <a th:href="@{/manager/dashboard}">ホーム</a>
+        </li>
+        <li>
+            <a th:href="@{/}">マイアカウント</a>
+        </li>
+    </ul>
+</header>
+<!--パスワード変更画面-->
+<header class="page-title" th:fragment="passwordEditHeader">
+    <a class="pageTitle" th:href="@{/user/home}"><h2>INEXT株式会社</h2></a>
+    <p th:text="${msg}"></p>
+</header>
+
+
+<!--ログインエリア-->
+<!--管理者（マネージャー）ログイン --- フォーム-->
+<div class="loginArea" th:fragment="managerlogin">
+    <div class="formArea">
+        <form th:action="@{/manager/login}"
+              method="post">
+            <h2>管理者ログイン</h2>
+            <div class="inputArea">
+                <label><p>アカウント</p><input type="text" name="emailInternal" placeholder="アカウント"></label>
+                <label><p>パスワード</p><input type="password" name="password" placeholder="パスワード"></label>
+            </div>
+
+            <div class="buttons">
+                <button type="submit">ログイン</button>
+            </div>
+        </form>
+    </div>
+    <div class="buttons">
+        <button class="goForgot" type="button">パスワード忘れ</button>
+        <button class="goSignUp" type="button">サインアップ</button>
+        <button class="cancel" type="button">キャンセル</button>
+    </div>
+</div>
+<!--ユーザー（普通ユーザー）ログイン --- フォーム-->
+<div class="loginArea" th:fragment="userLogin">
+    <!--ログイン --- フォーム-->
+    <div class="formArea">
+        <form th:action="@{/user/login}"
+              method="post">
+            <h2>ユーザーログイン</h2>
+            <div class="inputArea">
+                <label><p>アカウント</p><input type="text" name="emailInternal" placeholder="アカウント"></label>
+                <label><p>パスワード</p><input type="password" name="password" placeholder="パスワード"></label>
+            </div>
+
+            <div class="buttons">
+                <button type="submit">ログイン</button>
+            </div>
+        </form>
+    </div>
+    <div class="buttons">
+        <button class="goForgot" type="button">パスワード忘れ</button>
+        <button class="goSignUp" type="button">サインアップ</button>
+        <button class="cancel" type="button">キャンセル</button>
+    </div>
+</div>
+
+
+<!--サインアップエリア-->
+<!--管理者（マネージャー）サインアップ --- フォーム-->
+<div class="signUpArea" th:fragment="managerSignUp">
+    <div class="formArea">
+        <form class="managerSignUp" th:action="@{/manager/signUp/mail}" method="post">
+            <h2>管理者サインアップ</h2>
+            <div class="inputArea">
+                <label>
+                    <p>氏</p>
+                    <input type="text" name="lastName" placeholder="田中">
+                </label>
+                <label>
+                    <p>名</p>
+                    <input type="text" name="firstName" placeholder="太郎">
+                </label>
+                <label>
+                    <p>アカウント（社內メール）</p>
+                    <input type="text" name="emailInternal"
+                           placeholder="社内Eメール">
+                </label>
+                <label>
+                    <p>誕生日</p>
+                    <input type="date" name="birthDate"
+                           placeholder="誕生日">
+                </label>
+                <label>
+                    <p>個人Eメール</p>
+                    <input type="email" name="emailOther" placeholder="個人Eメール">
+                </label>
+                <label>
+                    <p>パスワード</p>
+                    <input type="password" name="passwordCheck"placeholder="パスワード">
+                </label>
+                <label>
+                    <p>パスワード確認</p>
+                    <input type="password" name="password"
+                           placeholder="パスワード確認">
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="submit">サインアップデータ送信</button>
+            </div>
+        </form>
+    </div>
+    <div class="buttons">
+        <button type="button" class="goLogin">アカウントあり</button>
+        <button class="goForgot" type="button">パスワード忘れ</button>
+        <button class="cancel" type="button">キャンセル</button>
+    </div>
+</div>
+<!--ユーザー（普通ユーザー）サインアップ --- フォーム-->
+<div class="signUpArea" th:fragment="userSignUp">
+    <div class="formArea">
+        <form class="userSignUp" th:action="@{/user/signUp/mail}" method="post">
+            <h2>ユーザーサインアップ</h2>
+            <div class="inputArea">
+                <label>
+                    <p>氏</p>
+                    <input type="text" name="lastName" placeholder="田中">
+                </label>
+                <label>
+                    <p>名</p>
+                    <input type="text" name="firstName" placeholder="太郎">
+                </label>
+                <label>
+                    <p>アカウント（社內メール）</p>
+                    <input type="text" name="emailInternal"
+                           placeholder="社内Eメール">
+                </label>
+                <label>
+                    <p>誕生日</p>
+                    <input type="date" name="birthDate"
+                           placeholder="誕生日">
+                </label>
+                <label>
+                    <p>個人Eメール</p>
+                    <input type="email" name="emailOther" placeholder="個人Eメール">
+                </label>
+                <label>
+                    <p>パスワード</p>
+                    <input type="password" name="passwordCheck" placeholder="パスワード">
+                </label>
+                <label>
+                    <p>パスワード確認</p>
+                    <input type="password" name="password"
+                           placeholder="パスワード確認">
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="submit">サインアップデータ送信</button>
+            </div>
+        </form>
+    </div>
+    <div class="buttons">
+        <button type="button" class="goLogin">アカウントあり</button>
+        <button class="goForgot" type="button">パスワード忘れ</button>
+        <button class="cancel" type="button">キャンセル</button>
+    </div>
+</div>
+
+
+<!--パスワード忘れ申し込みエリア-->
+<!--管理者（マネージャー）パスワード忘れ申し込み --- フォーム-->
+<div class="forgotArea" th:fragment="userForgot">
+    <div class="formArea">
+        <form th:action="@{/user/forgot/mail}" method="post">
+            <h2>ユーザーパスワード忘れ</h2>
+            <div class="inputArea">
+                <label><p>氏</p>
+                    <input type="text" name="lastName" placeholder="田中">
+                </label>
+                <label><p>名</p>
+                    <input type="text" name="firstName" placeholder="太郎">
+                </label>
+                <label><p>誕生日</p>
+                    <input type="date" name="birthDate">
+                </label>
+                <label><p>個人番号</p>
+                    <input type="text" name="personalId" placeholder="自分の社内ID">
+                </label>
+                <label><p>アカウント</p>
+                    <input type="text" name="emailInternal" placeholder="アカウント">
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="submit">変更申し込み</button>
+            </div>
+        </form>
+    </div>
+    <div class="buttons">
+        <button class="goSignUp" type="button">サインアップ</button>
+        <button class="goLogin" type="button">ログイン</button>
+        <button class="cancel" type="button">キャンセル</button>
+    </div>
+</div>
+<!--ユーザー（普通ユーザー）パスワード忘れ申し込み --- フォーム-->
+<div class="forgotArea" th:fragment="managerForgot">
+    <div class="formArea">
+        <form th:action="@{/manager/forgot/mail}" method="post">
+            <h2>管理者パスワード忘れ</h2>
+            <div class="inputArea">
+                <label><p>氏</p>
+                    <input type="text" name="lastName" placeholder="田中">
+                </label>
+                <label><p>名</p>
+                    <input type="text" name="firstName" placeholder="太郎">
+                </label>
+                <label><p>誕生日</p>
+                    <input type="date" name="birthDate">
+                </label>
+                <label><p>個人番号</p>
+                    <input type="text" name="personalId" placeholder="自分の社内ID">
+                </label>
+                <label><p>アカウント</p>
+                    <input type="text" name="emailInternal" placeholder="アカウント">
+                </label>
+
+            </div>
+            <div class="buttons">
+                <button type="submit">変更申し込み</button>
+            </div>
+        </form>
+    </div>
+    <div class="buttons">
+        <button class="goSignUp" type="button">サインアップ</button>
+        <button class="goLogin" type="button">ログイン</button>
+        <button class="cancel" type="button">キャンセル</button>
+    </div>
+</div>
+
+<!--ユーザーパスワード忘れ編集エリア-->
+<!--管理者（マネージャー）パスワード忘れ編集 --- フォーム-->
+<div class="forgotArea" th:fragment="managerPasswordEdit">
+    <div class="formArea">
+        <form th:action="@{/manager/password/edit/sent}" method="post">
+            <h2>管理者パスワード変更</h2>
+            <div class="inputArea">
+                <label>
+                    <p>古いパスワード</p>
+                    <input type="text" name="passwordOld" placeholder="古いパスワード">
+                </label>
+                <label>
+                    <p>新しいパスワード</p>
+                    <input type="password" name="password" placeholder="新しいパスワード">
+                </label>
+                <label>
+                    <p>新しいパスワード確認</p>
+                    <input type="password" name="passwordCheck" placeholder="新しいパスワード確認">
+                </label>
+                <label class="unicode-pass">
+                    <p>ユニコード</p>
+                    <input type="password" name="unicode" placeholder="<3" th:value="${unicode}">
+                    <p>モード</p>
+                    <input type="password" name="mode" placeholder="<3" th:value="${mode}">
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="submit">パスワード変更</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--ユーザー（普通ユーザー）パスワード忘れ編集 --- フォーム-->
+<div class="forgotArea" th:fragment="userPasswordEdit">
+    <div class="formArea">
+        <form th:action="@{/user/password/edit/sent}" method="post">
+            <h2>ユーザーパスワード変更</h2>
+            <div class="inputArea">
+                <label>
+                    <p>古いパスワード</p>
+                    <input type="text" name="passwordOld" placeholder="古いパスワード">
+                </label>
+                <label>
+                    <p>新しいパスワード</p>
+                    <input type="password" name="password" placeholder="新しいパスワード">
+                </label>
+                <label>
+                    <p>新しいパスワード確認</p>
+                    <input type="password" name="passwordCheck" placeholder="新しいパスワード確認">
+                </label>
+                <label class="unicode-pass">
+                    <p>ユニコード</p>
+                    <input type="password" name="unicode" placeholder="<3" th:value="${unicode}">
+                    <p>モード</p>
+                    <input type="password" name="mode" placeholder="<3" th:value="${mode}">
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="submit">パスワード変更</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

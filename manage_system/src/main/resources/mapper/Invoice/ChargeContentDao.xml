@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.ChargeContentDao">
+
+    <!-- 請求内容追加 -->
+    <insert id="insertChargeContent">
+        INSERT INTO charge_content 
+        (invoice_no,
+         item_name,
+         quantity, 
+         unit_price, 
+         creator, 
+         create_datetime,
+         updater,
+         update_datetime,
+         `delete`) 
+        VALUES 
+        <foreach collection="chargeContent" item="item" separator=",">
+            (#{item.invoiceNo},
+             #{item.itemName}, 
+             #{item.quantity}, 
+             #{item.unitPrice}, 
+             #{item.creator}, 
+             NOW(),
+             Null,
+             Null,
+             0)
+        </foreach>
+    </insert>
+
+    <!-- 請求内容データ数取得 by invoiceNo -->
+    <select id="countChargeContentNumByInvoiceNo" resultType="int">
+        SELECT COUNT(invoice_no) 
+        FROM charge_content 
+        WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <!-- 請求内容取得 by invoiceNo -->
+    <select id="selectAllChargeContentByInvoiceNo" resultType="com.inext.manage_system.model.ChargeContent">
+        SELECT item_name,
+               quantity,
+               unit_price
+        FROM charge_content
+        WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <!-- 請求内容削除 by invoiceNo -->
+    <delete id="deleteChargeContentByInvoiceNo">
+        DELETE FROM charge_content
+        WHERE invoice_no = #{invoiceNo}
+    </delete>
+
+    <!-- 請求内容状態編集 -->
+    <update id="updateChargeContentStatusByInvoiceNo">
+        UPDATE charge_content
+        SET updater= #{chargeContent.updater}, 
+            update_datetime = NOW(), 
+            `delete` = 1
+        WHERE invoice_no = #{chargeContent.invoiceNo}
+    </update>
+
+</mapper>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <script type="text/javascript" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <link th:href="@{/css/Common.css}" rel="styleSheet">
+    <link th:href="@{/css/common/Error.css}" rel="styleSheet">
+</head>
+<body>
+
+<h1 class="msg" th:text="${errorTitle}"></h1>
+<h3 class="msg" th:text="${msg}"></h3>
+
+<div class="buttons">
+    <button type="button" class="goBack">回到上一頁</button>
+    <a th:href="@{/home}"> 回到主頁</a>
+</div>
+
+</body>
+
+<script th:src="@{/js/Common.js}"></script>
+
+</html>

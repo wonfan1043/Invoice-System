@@ -1,0 +1,35 @@
+header h2 {
+    color: aliceblue;
+    overflow: hidden;
+}
+
+header .pageTitle {
+    max-width: 40%;
+    overflow: hidden;
+}
+
+.pageBtnBar {
+    padding: 10px;
+    margin: 20px auto;
+    max-width: 60%;
+    display: flex;
+    background-color: transparent;
+    border-radius: 15px;
+    flex-direction: column;
+    align-content: space-around;
+    align-items: center;
+}
+
+.pageBtnBar .pageBtn{
+    background-color: royalblue;
+    flex: 1;
+    text-align: center;
+    align-items: center;
+    margin: auto 10px;
+}
+
+body h3{
+    color: royalblue;
+    text-align: center;
+    padding: 20px;
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.CategoryDao">
+
+    <resultMap id="idNumberMap" type="com.inext.manage_system.dao.news.CategoryDao">
+        <result property="categoryId" column="idNumber"/>
+    </resultMap>
+
+    <!--カテゴリー取得-->
+    <select id="selectCategoryList" resultType="com.inext.manage_system.model.news.Category">
+        SELECT categoryId,
+               categoryName,
+               categoryAddDate,
+               categoryEditDate,
+               categoryStatus,
+               categoryRemoveDate
+        FROM inext.category
+        WHERE categoryStatus = 1
+    </select>
+
+    <!--カテゴリー取得 by categoryId-->
+    <select id="selectCategoryByCategoryId" resultType="com.inext.manage_system.model.news.Category">
+        SELECT categoryId,
+               categoryName,
+               categoryAddDate,
+               categoryEditDate,
+               categoryStatus,
+               categoryRemoveDate
+        FROM inext.category
+        WHERE categoryId = #{categoryId}
+    </select>
+
+    <!--カテゴリー追加-->
+    <insert id="insertCategory">
+        INSERT INTO inext.category
+        (categoryId,
+         categoryName,
+         categoryAddDate,
+         categoryEditDate,
+         categoryStatus,
+         categoryRemoveDate)
+        VALUES (#{category.categoryId},
+                #{category.categoryName},
+                #{category.categoryAddDate},
+                #{category.categoryEditDate},
+                #{category.categoryStatus},
+                NULL);
+    </insert>
+
+    <!--カテゴリー編集-->
+    <update id="updateCategoryByCategoryId">
+        UPDATE inext.category
+        SET categoryName     = #{category.categoryName},
+            categoryEditDate = #{category.categoryEditDate}
+        WHERE (categoryId = #{category.categoryId});
+    </update>
+
+    <!--カテゴリー状態編集-->
+    <update id="updateCategoryStatusByCategoryId">
+        UPDATE inext.category
+        SET categoryStatus = #{category.categoryStatus},
+            categoryRemoveDate = #{category.categoryRemoveDate}
+        WHERE (categoryId = #{category.categoryId});
+    </update>
+
+    <!--カテゴリー状態一括編集-->
+    <update id="updateCategoriesStatusByCategoryId">
+        UPDATE inext.category
+        <set>
+            categoryStatus = #{categoryStatus},
+            categoryRemoveDate = #{categoryRemoveDate}
+        </set>
+        WHERE categoryId IN
+        <foreach collection="categoryIds" item="categoryId" open="(" close=")" separator=",">
+            #{categoryId}
+        </foreach>
+    </update>
+
+    <!--カテゴリー採番取得-->
+    <select id="selectCategorySequence" resultMap="idNumberMap">
+        SELECT idNumber
+        FROM inext.categoryid_sequence;
+    </select>
+
+    <!--採番Id変更-->
+    <update id="updateCategorySequence">
+        UPDATE inext.categoryid_sequence
+        SET idNumber = idNumber + 1
+        ORDER BY idNumber
+        LIMIT 1;
+    </update>
+</mapper>

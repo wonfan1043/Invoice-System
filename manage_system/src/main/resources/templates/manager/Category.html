@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>カテゴリー管理一覧</title>
+    <script type="text/javascript" th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <link th:href="@{/css/Common.css}" rel="stylesheet">
+    <link th:href="@{/css/news/NewsCommon.css}" rel="stylesheet">
+    <link th:href="@{/css/news/NewsCategory.css}" rel="stylesheet">
+    <link th:href="@{/css/common/Account.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div>
+
+    <!--ログイン管理者のページタイトル-->
+    <header th:replace="/layout/CommonLayout::managerHeader"></header>
+
+    <!--追加ボタンエリア-->
+    <div th:replace="/layout/CategoryLayout::bulkRemoveBtnArea"></div>
+    <!--一覧-->
+    <div th:replace="/layout/CategoryLayout::categoryListDisplay"></div>
+
+    <!--フォームエリア-->
+    <!--追加フォーム-->
+    <div th:replace="/layout/CategoryLayout::categoryAddForm"></div>
+    <!--編集フォーム-->
+    <div th:replace="/layout/CategoryLayout::categoryEditForm"></div>
+
+</div>
+
+<script th:src="@{/js/Common.js}"></script>
+
+</body>
+
+</html>

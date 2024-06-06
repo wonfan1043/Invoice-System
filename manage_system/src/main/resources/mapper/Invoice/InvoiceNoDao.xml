@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.inext.manage_system.dao.InvoiceNoDao">
+
+    <!-- 最後の番号を取得 -->
+    <select id="selectInvoiceNoByOrder" resultType="int"> 
+        SELECT number 
+        FROM invoice_no 
+        ORDER BY number DESC 
+        LIMIT 1
+    </select>
+
+    <!-- 新番号追加 -->
+    <insert id="insertInvoiceNo">
+        INSERT INTO invoice_no 
+        (type) 
+        VALUES (#{type})
+    </insert>
+
+</mapper>

@@ -1,0 +1,17 @@
+form {
+    /*position: fixed;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    /*background-color: royalblue;*/
+    /*min-width: 80%;*/
+    /*max-height: 80%;*/
+    /*overflow: scroll;*/
+    /*overflow-x: hidden;*/
+    /*padding: 20px;*/
+    /*box-shadow: 1px 1px 25px 2px black;*/
+}
+
+g-box{
+    display: none;
+}
